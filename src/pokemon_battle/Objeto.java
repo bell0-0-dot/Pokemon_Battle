@@ -68,5 +68,16 @@ public class Objeto {
         this.valorEfecto = valorEfecto;
     }
 
-    
+    public boolean hayDisponible() {
+        return cantidad > 0;
+    }
+     public void usar() {
+        if (cantidad > 0) {
+            cantidad--;
+        }
+    }
+     @Override
+    public String toString() {
+        return nombre + " x" + cantidad + " - " + descripcion;
+    }
 }
