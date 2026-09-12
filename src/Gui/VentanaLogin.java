@@ -97,6 +97,8 @@ public class VentanaLogin extends Application {
 
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
+
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
@@ -108,7 +110,6 @@ public class VentanaLogin extends Application {
 
         if (resultado.esExitoso()) {
             mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", resultado.getMensaje());
-
             VentanaSeleccionPokemon seleccion = new VentanaSeleccionPokemon(gestorUsuarios);
             seleccion.start(stage);
         } else {
@@ -170,5 +171,3 @@ public class VentanaLogin extends Application {
         alert.showAndWait();
     }
 }
-
-
