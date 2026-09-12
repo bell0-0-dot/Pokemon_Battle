@@ -80,6 +80,14 @@ public class Pokemon {
     public void setHpMaximo(int HpMaximo) {
         this.HpMaximo = HpMaximo;
     }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
     
       @Override
     public String toString() {
