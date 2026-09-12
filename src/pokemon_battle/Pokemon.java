@@ -6,14 +6,17 @@ package pokemon_battle;
  * @author vasqu
  */
 public class Pokemon {
+    private String rutaImagen;
     private String nombre;
     private int nivel;
     private EnumTipo tipo;
     private int hp;
+    private int HpMaximo;
     private int ataque;
     private int defensa;
 
-    public Pokemon(String nombre, int nivel, EnumTipo tipo, int hp, int ataque, int defensa) {
+    public Pokemon(String ruta,String nombre, int nivel, EnumTipo tipo, int hp, int ataque, int defensa) {
+        this.rutaImagen=ruta;
         this.nombre = nombre;
         this.nivel = nivel;
         this.tipo = tipo;
@@ -68,6 +71,14 @@ public class Pokemon {
 
     public void setDefensa(int defensa) {
         this.defensa = defensa;
+    }
+
+    public int getHpMaximo() {
+        return HpMaximo;
+    }
+
+    public void setHpMaximo(int HpMaximo) {
+        this.HpMaximo = HpMaximo;
     }
     
       @Override
