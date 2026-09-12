@@ -1,5 +1,6 @@
 package Gui;
 
+import java.util.Optional;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,23 +10,31 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import pokemon_battle.Entrenador;
-import pokemon_battle.EnumTipo;
 import pokemon_battle.Pokemon;
+import pokemon_battle.datos.Pokedex;
 
 public class VentanaEquipo {
 
     private Entrenador entrenador;
+    private boolean modoBatalla;
+    private Pokedex pokedex;
     private ListView<String> listaEquipoView;
     private Label lblDisponibles;
     private ImageView imgVistaPrevia;
     private Label lblDetallesPokemon;
 
     public VentanaEquipo(Entrenador entrenador) {
+        this(entrenador, false);
+    }
+
+    public VentanaEquipo(Entrenador entrenador, boolean modoBatalla) {
         this.entrenador = entrenador;
+        this.modoBatalla = modoBatalla;
+        this.pokedex = new Pokedex();
     }
 
     public void start(Stage stage) {
-        stage.setTitle("Gestión de Equipo - " + entrenador.getNombre());
+        stage.setTitle("Mi Equipo - " + entrenador.getNombre());
 
         StackPane root = new StackPane();
 
@@ -54,7 +63,7 @@ public class VentanaEquipo {
                         "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 12, 0, 0, 4);"
         );
 
-        Label lblTitulo = new Label("EQUIPO DE ENTRENADOR: " + entrenador.getNombre().toUpperCase());
+        Label lblTitulo = new Label("EQUIPO DE " + entrenador.getNombre().toUpperCase());
         lblTitulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2a75bb;");
 
         lblDisponibles = new Label();
@@ -100,11 +109,14 @@ public class VentanaEquipo {
         btnEliminar.setStyle("-fx-background-color: #cc0000; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
         btnCerrar.setStyle("-fx-background-color: #777777; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
 
-        boxBotones.getChildren().addAll(btnAgregar, btnMoverFrente, btnBuscar, btnEliminar, btnCerrar);
+        if (modoBatalla) {
+            boxBotones.getChildren().addAll(btnBuscar, btnCerrar);
+        } else {
+            boxBotones.getChildren().addAll(btnAgregar, btnMoverFrente, btnBuscar, btnEliminar, btnCerrar);
+        }
 
         contenedor.getChildren().addAll(lblTitulo, lblDisponibles, centroBox, boxBotones);
         root.getChildren().add(contenedor);
-
 
         listaEquipoView.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && newVal.intValue() >= 0) {
@@ -117,14 +129,14 @@ public class VentanaEquipo {
 
         btnMoverFrente.setOnAction(e -> {
             int idx = listaEquipoView.getSelectionModel().getSelectedIndex();
-            if (idx >= 0) {
-                Pokemon p = entrenador.obtenerPorIndice(idx);
-                if (p != null && entrenador.moverAlFrente(p.getNombre())) {
-                    mostrarAlerta("Éxito", p.getNombre() + " ahora es el Pokémon principal del equipo.");
-                    actualizarLista();
-                }
-            } else {
+            if (idx < 0) {
                 mostrarAlerta("Atención", "Selecciona un Pokémon de la lista.");
+                return;
+            }
+            Pokemon p = entrenador.obtenerPorIndice(idx);
+            if (p != null && entrenador.moverAlFrente(p.getNombre())) {
+                mostrarAlerta("Listo", p.getNombre() + " ahora es el primero del equipo.");
+                actualizarLista();
             }
         });
 
@@ -133,14 +145,14 @@ public class VentanaEquipo {
 
         btnEliminar.setOnAction(e -> {
             int idx = listaEquipoView.getSelectionModel().getSelectedIndex();
-            if (idx >= 0) {
-                Pokemon p = entrenador.obtenerPorIndice(idx);
-                if (p != null && entrenador.eliminarPokemon(p.getNombre())) {
-                    mostrarAlerta("Éxito", p.getNombre() + " fue eliminado del equipo.");
-                    actualizarLista();
-                }
-            } else {
+            if (idx < 0) {
                 mostrarAlerta("Atención", "Selecciona un Pokémon para eliminar.");
+                return;
+            }
+            Pokemon p = entrenador.obtenerPorIndice(idx);
+            if (p != null && entrenador.eliminarPokemon(p.getNombre())) {
+                mostrarAlerta("Listo", p.getNombre() + " fue eliminado del equipo.");
+                actualizarLista();
             }
         });
 
@@ -158,11 +170,15 @@ public class VentanaEquipo {
         for (int i = 0; i < entrenador.totalPokemon(); i++) {
             Pokemon p = entrenador.obtenerPorIndice(i);
             if (p != null) {
-                String estado = p.getHp() <= 0 ? "DERROTADO" : "DISPONIBLE";
-                listaEquipoView.getItems().add((i + 1) + ". " + p.getNombre() + " [Nvl " + p.getNivel() + "] - HP: " + p.getHp() + " (" + estado + ")");
+                String estado = p.getHp() <= 0 ? "  DERROTADO" : "";
+                String activo = p == entrenador.getPokemonActivo() ? "  (en combate)" : "";
+                listaEquipoView.getItems().add((i + 1) + ". " + p.getNombre()
+                        + "   Nivel " + p.getNivel()
+                        + "   " + p.getHp() + "/" + p.getHpMaximo()
+                        + estado + activo);
             }
         }
-        lblDisponibles.setText("Pokémon disponibles: " + entrenador.pokemonDisponibles() + " / " + entrenador.totalPokemon());
+        lblDisponibles.setText("Pokémon disponibles: " + entrenador.pokemonDisponibles() + " de " + entrenador.totalPokemon());
 
         if (entrenador.totalPokemon() == 0) {
             imgVistaPrevia.setImage(null);
@@ -176,48 +192,40 @@ public class VentanaEquipo {
                 "Nombre: " + p.getNombre() +
                         "\nTipo: " + tipo +
                         "\nNivel: " + p.getNivel() +
-                        "\nHP: " + p.getHp() +
+                        "\nHP: " + p.getHp() + "/" + p.getHpMaximo() +
                         "\nAtaque: " + p.getAtaque() +
                         "\nDefensa: " + p.getDefensa()
         );
-
-        try {
-            if (p.getRutaImagen() != null && !p.getRutaImagen().isEmpty()) {
-                imgVistaPrevia.setImage(new Image(getClass().getResourceAsStream(p.getRutaImagen())));
-            } else {
-                imgVistaPrevia.setImage(new Image(getClass().getResourceAsStream("/RecursosGraficos/" + p.getNombre().toLowerCase() + ".png")));
-            }
-        } catch (Exception e) {
-            imgVistaPrevia.setImage(null);
-        }
+        cargarImagen(p);
     }
 
     private void abrirDialogoAgregar() {
-        TextInputDialog dialog = new TextInputDialog("Pikachu,15,Electrico,100,55,40");
-        dialog.setTitle("Agregar Pokémon al Equipo");
-        dialog.setHeaderText("Formato: Nombre,Nivel,Tipo,HP,Ataque,Defensa\nTipos válidos: Agua, Tierra, Electrico, Fuego, Hielo, Planta, Acero, Dragon");
-        dialog.setContentText("Datos:");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>();
+        dialog.setTitle("Agregar Pokémon");
+        dialog.setHeaderText("Elige un Pokémon de la Pokédex:");
+        dialog.setContentText("Pokémon:");
 
-        dialog.showAndWait().ifPresent(input -> {
-            try {
-                String[] p = input.split(",");
-                String nombre = p[0].trim();
-                int nivel = Integer.parseInt(p[1].trim());
-                EnumTipo tipo = EnumTipo.valueOf(p[2].trim());
-                int hp = Integer.parseInt(p[3].trim());
-                int ataque = Integer.parseInt(p[4].trim());
-                int defensa = Integer.parseInt(p[5].trim());
+        for (int i = 0; i < pokedex.contar(); i++) {
+            Pokemon p = pokedex.verPlantilla(i);
+            if (p != null && entrenador.buscarPokemon(p.getNombre()) == null) {
+                dialog.getItems().add(p.getNombre() + " - " + p.getTipo() + " - Nivel " + p.getNivel());
+            }
+        }
 
-                String ruta = "/Imagenes/" + nombre.toLowerCase() + ".png";
-                Pokemon nuevo = new Pokemon(ruta, nombre, nivel, tipo, hp, ataque, defensa);
+        if (dialog.getItems().isEmpty()) {
+            mostrarAlerta("Atención", "Ya tienes todos los Pokémon de la Pokédex.");
+            return;
+        }
 
-                if (entrenador.agregarPokemon(nuevo)) {
-                    actualizarLista();
-                } else {
-                    mostrarAlerta("Error", "El Pokémon ya existe en el equipo.");
-                }
-            } catch (Exception ex) {
-                mostrarAlerta("Error de Formato", "Asegúrate de ingresar los datos correctamente y utilizar un tipo válido.");
+        dialog.setSelectedItem(dialog.getItems().get(0));
+        Optional<String> resultado = dialog.showAndWait();
+
+        resultado.ifPresent(seleccion -> {
+            String nombre = seleccion.split(" - ")[0].trim();
+            if (entrenador.agregarPokemon(pokedex.crear(nombre))) {
+                actualizarLista();
+            } else {
+                mostrarAlerta("Error", "Ese Pokémon ya está en tu equipo.");
             }
         });
     }
@@ -226,17 +234,42 @@ public class VentanaEquipo {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Buscar Pokémon");
         dialog.setHeaderText(null);
-        dialog.setContentText("Ingresa el nombre del Pokémon:");
+        dialog.setContentText("Nombre del Pokémon:");
 
         dialog.showAndWait().ifPresent(nombre -> {
             Pokemon p = entrenador.buscarPokemon(nombre.trim());
             if (p != null) {
                 mostrarDetalles(p);
-                mostrarAlerta("Pokémon Encontrado", "Se encontró a " + p.getNombre() + " en tu equipo.");
+                mostrarAlerta("Encontrado", p.getNombre() + " esta en tu equipo con "
+                        + p.getHp() + "/" + p.getHpMaximo() + " HP.");
             } else {
-                mostrarAlerta("No Encontrado", "El Pokémon '" + nombre + "' no está en tu equipo.");
+                mostrarAlerta("No encontrado", "El Pokémon '" + nombre + "' no está en tu equipo.");
             }
         });
+    }
+
+    private void cargarImagen(Pokemon p) {
+        String[] intentos = {
+                p.getRutaImagen(),
+                "/Imagenes/" + p.getNombre().toLowerCase() + ".png",
+                "/Imagenes/" + p.getNombre() + ".png",
+                "/Imagenes/" + p.getNombre() + ".jpg"
+        };
+
+        for (String ruta : intentos) {
+            if (ruta == null || ruta.isEmpty()) {
+                continue;
+            }
+            try {
+                Image img = new Image(getClass().getResourceAsStream(ruta));
+                if (img.getWidth() > 0) {
+                    imgVistaPrevia.setImage(img);
+                    return;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        imgVistaPrevia.setImage(null);
     }
 
     private void mostrarAlerta(String titulo, String contenido) {

@@ -103,15 +103,29 @@ public class VentanaSeleccionPokemon {
         Button btnIrABatalla = new Button("¡IR A LA BATALLA!");
         btnIrABatalla.setStyle("-fx-background-color: #ffde00; -fx-text-fill: #3b4cca; -fx-font-weight: bold; -fx-font-size: 15px; -fx-cursor: hand; -fx-padding: 10 25 10 25;");
 
-        contenedor.getChildren().addAll(lblTitulo, listasBox, btnIrABatalla);
+        Button btnGestionarEquipo = new Button("GESTIONAR MI EQUIPO");
+        btnGestionarEquipo.setStyle("-fx-background-color: #3b4cca; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand; -fx-padding: 10 20 10 20;");
+
+        HBox boxAcciones = new HBox(15, btnGestionarEquipo, btnIrABatalla);
+        boxAcciones.setAlignment(Pos.CENTER);
+
+        btnGestionarEquipo.setOnAction(e -> {
+            Stage ventanaEquipo = new Stage();
+            VentanaEquipo vEquipo = new VentanaEquipo(jugador);
+            vEquipo.start(ventanaEquipo);
+            ventanaEquipo.setOnHidden(ev -> actualizarListaEquipo());
+        });
+
+        contenedor.getChildren().addAll(lblTitulo, listasBox, boxAcciones);
         root.getChildren().add(contenedor);
 
         listPokedex.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && newVal.intValue() >= 0) {
                 Pokemon p = pokedex.verPlantilla(newVal.intValue());
                 if (p != null) {
-                    lblDetalles.setText(p.getNombre() + "\nNvl: " + p.getNivel() + " | HP: " + p.getHp() +
-                            "\nAtq: " + p.getAtaque() + " | Def: " + p.getDefensa());
+                    lblDetalles.setText(p.getNombre() + "\nTipo: " + p.getTipo()
+                            + "\nNvl: " + p.getNivel() + " | HP: " + p.getHpMaximo()
+                            + "\nAtq: " + p.getAtaque() + " | Def: " + p.getDefensa());
                     cargarImagenPokemon(imgVistaPrevia, p);
                 }
             }
@@ -159,7 +173,7 @@ public class VentanaSeleccionPokemon {
         for (int i = 0; i < pokedex.contar(); i++) {
             Pokemon p = pokedex.verPlantilla(i);
             if (p != null) {
-                listPokedex.getItems().add(p.getNombre() + " (Nvl " + p.getNivel() + ")");
+                listPokedex.getItems().add(p.getNombre() + "  [" + p.getTipo() + "]  Nvl " + p.getNivel());
             }
         }
     }
@@ -170,7 +184,8 @@ public class VentanaSeleccionPokemon {
         for (int i = 0; i < jugador.totalPokemon(); i++) {
             Pokemon p = jugador.obtenerPorIndice(i);
             if (p != null) {
-                listMiEquipo.getItems().add((i + 1) + ". " + p.getNombre() + " - Nvl " + p.getNivel());
+                listMiEquipo.getItems().add((i + 1) + ". " + p.getNombre() + "  [" + p.getTipo() + "]  "
+                        + p.getHp() + "/" + p.getHpMaximo());
             }
         }
     }

@@ -18,6 +18,7 @@ public class Batalla {
     private EstadisticasBatalla estadisticas;
     private Estado estado;
     private Random random;
+    private boolean ultimaAccionAplicada;
 
     public Batalla(Entrenador jugador, Entrenador rival) {
         this.jugador = jugador;
@@ -26,10 +27,12 @@ public class Batalla {
         this.estadisticas = new EstadisticasBatalla();
         this.estado = Estado.EN_CURSO;
         this.random = new Random();
+        this.ultimaAccionAplicada = false;
         historial.registrar("Comienza la batalla contra " + rival.getNombre() + ".");
     }
 
     public String atacar() {
+        ultimaAccionAplicada = false;
         if (estado != Estado.EN_CURSO) {
             return "La batalla ya termino.\n";
         }
@@ -40,6 +43,7 @@ public class Batalla {
             return "No hay Pokemon en combate.";
         }
 
+        ultimaAccionAplicada = true;
         estadisticas.contarTurno();
         StringBuilder texto = new StringBuilder();
         texto.append(ejecutarAtaque(mio, suyo, true));
@@ -57,6 +61,7 @@ public class Batalla {
     }
 
     public String usarObjeto(String nombreObjeto, String nombrePokemon) {
+        ultimaAccionAplicada = false;
         if (estado != Estado.EN_CURSO) {
             return "La batalla ya termino.";
         }
@@ -75,6 +80,7 @@ public class Batalla {
             return "No se pudo usar " + nombreObjeto + " en " + objetivo.getNombre() + ".\n";
         }
 
+        ultimaAccionAplicada = true;
         estadisticas.contarTurno();
         estadisticas.contarObjeto();
 
@@ -88,6 +94,7 @@ public class Batalla {
     }
 
     public String cambiarPokemon(String nombre) {
+        ultimaAccionAplicada = false;
         if (estado != Estado.EN_CURSO) {
             return "La batalla ya termino.";
         }
@@ -100,6 +107,7 @@ public class Batalla {
             return "No puedes enviar a ese Pokemon.\n";
         }
 
+        ultimaAccionAplicada = true;
         estadisticas.contarTurno();
         estadisticas.contarCambio();
 
@@ -147,6 +155,10 @@ public class Batalla {
 
     public Estado getEstado() {
         return estado;
+    }
+
+    public boolean ultimaAccionAplicada() {
+        return ultimaAccionAplicada;
     }
 
     public boolean terminada() {

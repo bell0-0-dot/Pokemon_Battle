@@ -11,20 +11,23 @@ import pokemon_battle.Entrenador;
 import pokemon_battle.ListaObjetos;
 import pokemon_battle.Objeto;
 import pokemon_battle.Pokemon;
+import pokemon_battle.batalla.Batalla;
 
 public class VentanaInventario {
 
+    private Batalla batalla;
     private Entrenador entrenador;
     private ListaObjetos inventario;
     private ListView<String> listaObjetosView;
     private ComboBox<String> comboPokemonObjetivo;
     private Label lblDescripcion;
-    private Runnable onObjetoUsadoCallback;
+    private Runnable alUsarObjeto;
 
-    public VentanaInventario(Entrenador entrenador, ListaObjetos inventario, Runnable onObjetoUsadoCallback) {
-        this.entrenador = entrenador;
-        this.inventario = inventario;
-        this.onObjetoUsadoCallback = onObjetoUsadoCallback;
+    public VentanaInventario(Batalla batalla, Runnable alUsarObjeto) {
+        this.batalla = batalla;
+        this.entrenador = batalla.getJugador();
+        this.inventario = entrenador.getInventario();
+        this.alUsarObjeto = alUsarObjeto;
     }
 
     public void start(Stage stage) {
@@ -64,7 +67,7 @@ public class VentanaInventario {
         listaObjetosView.setPrefHeight(130);
 
         lblDescripcion = new Label("Selecciona un objeto para ver su descripción.");
-        lblDescripcion.setStyle("-fx-font-size: 11px; -fx-text-fill: #555555; -fx-italic: true;");
+        lblDescripcion.setStyle("-fx-font-size: 11px; -fx-text-fill: #555555;");
 
         HBox boxObjetivo = new HBox(10);
         boxObjetivo.setAlignment(Pos.CENTER);
@@ -76,8 +79,8 @@ public class VentanaInventario {
         HBox boxBotones = new HBox(12);
         boxBotones.setAlignment(Pos.CENTER);
 
-        Button btnUsar = new Button("Usar Objeto");
-        Button btnCancelar = new Button("Cancelar");
+        Button btnUsar = new Button("UTILIZAR");
+        Button btnCancelar = new Button("CERRAR");
 
         btnUsar.setStyle("-fx-background-color: #3b4cca; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
         btnCancelar.setStyle("-fx-background-color: #777777; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
@@ -89,10 +92,9 @@ public class VentanaInventario {
 
         listaObjetosView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                String nombreObj = newVal.split(" x")[0].trim();
-                Objeto obj = inventario.buscar(nombreObj);
+                Objeto obj = inventario.buscar(newVal.split(" x")[0].trim());
                 if (obj != null) {
-                    lblDescripcion.setText(obj.getDescripcion() + " (Valor: " + obj.getValorEfecto() + ")");
+                    lblDescripcion.setText(obj.getDescripcion());
                 }
             }
         });
@@ -102,25 +104,23 @@ public class VentanaInventario {
             String seleccionPokemon = comboPokemonObjetivo.getValue();
 
             if (seleccionObjeto == null || seleccionPokemon == null) {
-                mostrarAlerta("Atención", "Debes seleccionar un objeto y un Pokémon objetivo.");
+                mostrarAlerta("Atención", "Debes seleccionar un objeto y un Pokémon.");
                 return;
             }
 
             String nombreObjeto = seleccionObjeto.split(" x")[0].trim();
             String nombrePokemon = seleccionPokemon.split(" -")[0].trim();
 
-            Pokemon objetivo = entrenador.buscarPokemon(nombrePokemon);
+            String resultado = batalla.usarObjeto(nombreObjeto, nombrePokemon);
 
-            if (objetivo != null) {
-                if (inventario.usarObjeto(nombreObjeto, objetivo)) {
-                    mostrarAlerta("Éxito", "Se usó " + nombreObjeto + " en " + objetivo.getNombre() + ".");
-                    if (onObjetoUsadoCallback != null) {
-                        onObjetoUsadoCallback.run();
-                    }
-                    stage.close();
-                } else {
-                    mostrarAlerta("Acción Inválida", "No se puede usar este objeto en " + objetivo.getNombre() + ".");
+            if (batalla.ultimaAccionAplicada()) {
+                if (alUsarObjeto != null) {
+                    alUsarObjeto.run();
                 }
+                stage.close();
+            } else {
+                mostrarAlerta("Acción inválida", resultado.trim());
+                cargarDatos();
             }
         });
 
@@ -135,20 +135,22 @@ public class VentanaInventario {
 
     private void cargarDatos() {
         listaObjetosView.getItems().clear();
-        Objeto[] objetos = inventario.recorrer();
-        if (objetos != null) {
-            for (Objeto obj : objetos) {
-                if (obj != null && obj.getCantidad() > 0) {
-                    listaObjetosView.getItems().add(obj.getNombre() + " x" + obj.getCantidad());
-                }
+        for (int i = 0; i < inventario.contar(); i++) {
+            Objeto obj = inventario.obtenerPorIndice(i);
+            if (obj != null && obj.getCantidad() > 0) {
+                listaObjetosView.getItems().add(obj.getNombre() + " x" + obj.getCantidad());
             }
+        }
+        if (!listaObjetosView.getItems().isEmpty()) {
+            listaObjetosView.getSelectionModel().selectFirst();
         }
 
         comboPokemonObjetivo.getItems().clear();
         for (int i = 0; i < entrenador.totalPokemon(); i++) {
             Pokemon p = entrenador.obtenerPorIndice(i);
             if (p != null) {
-                comboPokemonObjetivo.getItems().add(p.getNombre() + " - HP: " + p.getHp());
+                comboPokemonObjetivo.getItems().add(p.getNombre() + " - " + p.getHp() + "/" + p.getHpMaximo()
+                        + (p.getHp() <= 0 ? " DERROTADO" : ""));
             }
         }
         if (!comboPokemonObjetivo.getItems().isEmpty()) {
