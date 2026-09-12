@@ -29,7 +29,6 @@ public class VentanaEquipo {
 
         StackPane root = new StackPane();
 
-        // Carga de fondo temático
         try {
             Image imgFondo = new Image(getClass().getResourceAsStream("/RecursosGraficos/Pokemon_Center.jpg"));
             BackgroundImage bgImage = new BackgroundImage(
@@ -44,7 +43,6 @@ public class VentanaEquipo {
             System.out.println("No se pudo cargar la imagen de fondo: " + e.getMessage());
         }
 
-        // Contenedor semi-transparente
         VBox contenedor = new VBox(15);
         contenedor.setMaxWidth(700);
         contenedor.setMaxHeight(520);
@@ -62,7 +60,6 @@ public class VentanaEquipo {
         lblDisponibles = new Label();
         lblDisponibles.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #333333;");
 
-        // Panel central con lista a la izquierda y detalles/sprite a la derecha
         HBox centroBox = new HBox(15);
         centroBox.setAlignment(Pos.CENTER);
 
@@ -87,7 +84,6 @@ public class VentanaEquipo {
         panelDetalles.getChildren().addAll(imgVistaPrevia, lblDetallesPokemon);
         centroBox.getChildren().addAll(listaEquipoView, panelDetalles);
 
-        // Panel de botones
         HBox boxBotones = new HBox(10);
         boxBotones.setAlignment(Pos.CENTER);
 
@@ -109,9 +105,7 @@ public class VentanaEquipo {
         contenedor.getChildren().addAll(lblTitulo, lblDisponibles, centroBox, boxBotones);
         root.getChildren().add(contenedor);
 
-        // --- LISTENERS Y ACCIONES ---
 
-        // Mostrar detalles al hacer clic en un Pokémon de la lista
         listaEquipoView.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && newVal.intValue() >= 0) {
                 Pokemon p = entrenador.obtenerPorIndice(newVal.intValue());
@@ -121,7 +115,6 @@ public class VentanaEquipo {
             }
         });
 
-        // Reorganizar poniendo al Pokémon en la primera posición de la ListaEnlazada
         btnMoverFrente.setOnAction(e -> {
             int idx = listaEquipoView.getSelectionModel().getSelectedIndex();
             if (idx >= 0) {

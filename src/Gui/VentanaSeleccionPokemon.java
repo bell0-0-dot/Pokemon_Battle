@@ -65,7 +65,6 @@ public class VentanaSeleccionPokemon {
         HBox listasBox = new HBox(20);
         listasBox.setAlignment(Pos.CENTER);
 
-        // --- Panel Pokédex ---
         VBox boxPokedex = new VBox(8);
         boxPokedex.getChildren().add(new Label("Pokédex (Disponibles):"));
         listPokedex = new ListView<>();
@@ -73,7 +72,6 @@ public class VentanaSeleccionPokemon {
         listPokedex.setPrefHeight(250);
         boxPokedex.getChildren().add(listPokedex);
 
-        // --- Panel Detalles y Vista Previa ---
         VBox boxDetalles = new VBox(10);
         boxDetalles.setAlignment(Pos.CENTER);
         boxDetalles.setPrefWidth(200);
@@ -91,7 +89,6 @@ public class VentanaSeleccionPokemon {
 
         boxDetalles.getChildren().addAll(imgVistaPrevia, lblDetalles, btnAgregar);
 
-        // --- Panel Mi Equipo ---
         VBox boxEquipo = new VBox(8);
         boxEquipo.getChildren().add(new Label("Tu Equipo Seleccionado:"));
         listMiEquipo = new ListView<>();
@@ -101,16 +98,13 @@ public class VentanaSeleccionPokemon {
 
         listasBox.getChildren().addAll(boxPokedex, boxDetalles, boxEquipo);
 
-        // --- Botón de Iniciar Batalla ---
         Button btnIrABatalla = new Button("¡IR A LA BATALLA!");
         btnIrABatalla.setStyle("-fx-background-color: #ffde00; -fx-text-fill: #3b4cca; -fx-font-weight: bold; -fx-font-size: 15px; -fx-cursor: hand; -fx-padding: 10 25 10 25;");
 
         contenedor.getChildren().addAll(lblTitulo, listasBox, btnIrABatalla);
         root.getChildren().add(contenedor);
 
-        // --- MANEJO DE EVENTOS ---
 
-        // Selección en la lista de la Pokédex
         listPokedex.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && newVal.intValue() >= 0) {
                 Pokemon p = pokedex.verPlantilla(newVal.intValue());
@@ -126,7 +120,6 @@ public class VentanaSeleccionPokemon {
             }
         });
 
-        // Agregar al equipo usando Pokédex
         btnAgregar.setOnAction(e -> {
             int idx = listPokedex.getSelectionModel().getSelectedIndex();
             if (idx >= 0) {
@@ -139,7 +132,6 @@ public class VentanaSeleccionPokemon {
             }
         });
 
-        // Ir a la Batalla
         btnIrABatalla.setOnAction(e -> {
             if (!jugador.tieneEquipo()) {
                 mostrarAlerta("Equipo Vacío", "Debes agregar al menos un Pokémon a tu equipo para empezar.");

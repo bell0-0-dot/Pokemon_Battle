@@ -12,15 +12,17 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import pokemon_battle.Entrenador;
 import pokemon_battle.ListaObjetos;
+import pokemon_battle.LogicaJuego;
 import pokemon_battle.Objeto;
 import pokemon_battle.Pokemon;
+import pokemon_battle.batalla.EstadisticasBatalla;
 import pokemon_battle.batalla.Historial;
 
 public class VentanaBatalla {
 
+    private LogicaJuego logica;
     private Entrenador jugador;
     private Entrenador rival;
-    private Historial historial;
     private ListaObjetos inventarioJugador;
 
     private Label lblNombreRival, lblHpRival, lblNivelRival, lblTipoRival;
@@ -30,17 +32,24 @@ public class VentanaBatalla {
     private ImageView imgJugador;
 
     private TextArea txtHistorial;
-    private Button btnAtacar, btnCambiar, btnObjetos, btnEquipo;
+    private Button btnAtacar, btnCambiar, btnObjetos;
 
     public VentanaBatalla(Entrenador jugador, Entrenador rival) {
         this.jugador = jugador;
         this.rival = rival;
-        this.historial = new Historial();
 
         this.inventarioJugador = new ListaObjetos();
         this.inventarioJugador.insertar(new Objeto("Pocion", "Restaura 20 HP", 3, Objeto.TipoEfecto.CURAR, 20));
         this.inventarioJugador.insertar(new Objeto("Superpocion", "Restaura 50 HP", 1, Objeto.TipoEfecto.CURAR, 50));
         this.inventarioJugador.insertar(new Objeto("Revivir", "Revive con la mitad de HP", 1, Objeto.TipoEfecto.REVIVIR, 0));
+
+        this.logica = new LogicaJuego(
+                this.jugador,
+                this.rival,
+                this.inventarioJugador,
+                new Historial(),
+                new EstadisticasBatalla()
+        );
     }
 
     public void start(Stage stage) {
@@ -59,7 +68,7 @@ public class VentanaBatalla {
             );
             root.setBackground(new Background(bgImage));
         } catch (Exception e) {
-            System.out.println("Error al cargar imagen de fondo: " + e.getMessage());
+            System.out.println("Error al cargar fondo: " + e.getMessage());
         }
 
         BorderPane layoutBatalla = new BorderPane();
@@ -113,7 +122,7 @@ public class VentanaBatalla {
         imgRival.setPreserveRatio(true);
 
         Label lblVS = new Label("⚔️ VS ⚔️");
-        lblVS.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2a75bb; -fx-effect: dropshadow(one-pass-box, white, 5, 0, 0, 0);");
+        lblVS.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 8, 0, 0, 2);");
 
         campo.add(cardJugador, 0, 0);
         campo.add(cardRival, 2, 0);
@@ -124,27 +133,52 @@ public class VentanaBatalla {
 
         layoutBatalla.setCenter(campo);
 
-        HBox panelBotones = new HBox(15);
+        HBox panelBotones = new HBox(20);
         panelBotones.setAlignment(Pos.CENTER);
         panelBotones.setPadding(new Insets(10, 0, 10, 0));
 
-        btnAtacar = new Button("ATACAR");
-        btnCambiar = new Button("CAMBIAR");
-        btnObjetos = new Button("OBJETOS");
-        btnEquipo = new Button("MI EQUIPO");
+        btnAtacar = new Button("⚔️ ATACAR");
+        btnCambiar = new Button("🔄 CAMBIAR");
+        btnObjetos = new Button("🎒 OBJETOS");
 
-        String estiloAccion = "-fx-background-color: #3b4cca; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand; -fx-min-width: 100px;";
-        btnAtacar.setStyle("-fx-background-color: #ffde00; -fx-text-fill: #3b4cca; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand; -fx-min-width: 100px;");
-        btnCambiar.setStyle(estiloAccion);
-        btnObjetos.setStyle(estiloAccion);
-        btnEquipo.setStyle("-fx-background-color: #4caf50; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand; -fx-min-width: 100px;");
+        btnAtacar.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #ff4e50, #f9d423);" +
+                        "-fx-text-fill: #ffffff;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-background-radius: 8px;" +
+                        "-fx-padding: 8px 20px;" +
+                        "-fx-cursor: hand;" +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);"
+        );
 
-        panelBotones.getChildren().addAll(btnAtacar, btnCambiar, btnObjetos, btnEquipo);
+        btnCambiar.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #2193b0, #6dd5ed);" +
+                        "-fx-text-fill: #ffffff;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-background-radius: 8px;" +
+                        "-fx-padding: 8px 20px;" +
+                        "-fx-cursor: hand;" +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);"
+        );
 
+        btnObjetos.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #11998e, #38ef7d);" +
+                        "-fx-text-fill: #ffffff;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-background-radius: 8px;" +
+                        "-fx-padding: 8px 20px;" +
+                        "-fx-cursor: hand;" +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);"
+        );
+
+        panelBotones.getChildren().addAll(btnAtacar, btnCambiar, btnObjetos);
 
         VBox panelHistorial = new VBox(5);
         Label lblHistorialHeader = new Label("HISTORIAL DE BATALLA:");
-        lblHistorialHeader.setStyle("-fx-font-weight: bold; -fx-text-fill: #111111; -fx-effect: dropshadow(one-pass-box, white, 3, 0, 0, 0);");
+        lblHistorialHeader.setStyle("-fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-effect: dropshadow(one-pass-box, black, 4, 0, 0, 1);");
 
         txtHistorial = new TextArea();
         txtHistorial.setEditable(false);
@@ -159,21 +193,25 @@ public class VentanaBatalla {
 
         root.getChildren().add(layoutBatalla);
 
+        btnAtacar.setOnAction(e -> {
+            if (!logica.isBatallaTerminada()) {
+                logica.ataca();
+                actualizarEstadoBatalla();
+                comprobarFinDeJuego();
+            }
+        });
 
         btnCambiar.setOnAction(e -> abrirDialogoCambio());
-        btnEquipo.setOnAction(e -> abrirDialogoCambio());
 
         btnObjetos.setOnAction(e -> {
+            if (logica.isBatallaTerminada()) return;
             VentanaInventario vInventario = new VentanaInventario(jugador, inventarioJugador, () -> {
-                historial.registrar(jugador.getNombre() + " usó un objeto del inventario.");
                 actualizarEstadoBatalla();
             });
             vInventario.start(new Stage());
         });
 
-        btnAtacar.setOnAction(e -> ejecutarAtaquePrueba());
-
-        historial.registrar("¡Empieza la batalla entre " + jugador.getNombre() + " y " + rival.getNombre() + "!");
+        logica.getHistorial().registrar("¡Empieza la batalla entre " + jugador.getNombre() + " y " + rival.getNombre() + "!");
         actualizarEstadoBatalla();
 
         Scene scene = new Scene(root, 900, 650);
@@ -203,6 +241,8 @@ public class VentanaBatalla {
     }
 
     private void abrirDialogoCambio() {
+        if (logica.isBatallaTerminada()) return;
+
         ChoiceDialog<String> dialog = new ChoiceDialog<>();
         dialog.setTitle("Mi Equipo - Seleccionar Pokémon");
         dialog.setHeaderText("Elige el Pokémon con el que deseas pelear:");
@@ -225,8 +265,7 @@ public class VentanaBatalla {
 
         result.ifPresent(seleccion -> {
             String nombrePokemon = seleccion.split(" \\(")[0].trim();
-            if (jugador.cambiarPokemon(nombrePokemon)) {
-                historial.registrar(jugador.getNombre() + " cambió a " + nombrePokemon + ".");
+            if (logica.cambiarPokemon(nombrePokemon)) {
                 actualizarEstadoBatalla();
             }
         });
@@ -252,10 +291,24 @@ public class VentanaBatalla {
             cargarImagenPokemon(imgRival, pRival);
         }
 
-        txtHistorial.setText(historial.textoCompleto());
+        txtHistorial.setText(logica.getHistorial().textoCompleto());
         txtHistorial.appendText("");
         txtHistorial.setScrollTop(Double.MAX_VALUE);
         txtHistorial.selectRange(txtHistorial.getLength(), txtHistorial.getLength());
+    }
+
+    private void comprobarFinDeJuego() {
+        if (logica.isBatallaTerminada()) {
+            btnAtacar.setDisable(true);
+            btnCambiar.setDisable(true);
+            btnObjetos.setDisable(true);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Fin de la Batalla");
+            alert.setHeaderText("Resumen de Partida");
+            alert.setContentText(logica.getEstadisticas().resumen());
+            alert.showAndWait();
+        }
     }
 
     private void cargarImagenPokemon(ImageView view, Pokemon p) {
@@ -282,16 +335,5 @@ public class VentanaBatalla {
             } catch (Exception ignored) {}
         }
         view.setImage(null);
-    }
-
-    private void ejecutarAtaquePrueba() {
-        Pokemon pJugador = jugador.getPokemonActivo();
-        Pokemon pRival = rival.getPokemonActivo();
-
-        if (pJugador != null && pRival != null) {
-            historial.registrar(pJugador.getNombre() + " atacó a " + pRival.getNombre() + ".");
-            historial.siguienteTurno();
-            actualizarEstadoBatalla();
-        }
     }
 }

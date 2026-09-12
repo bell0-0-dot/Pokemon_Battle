@@ -109,7 +109,6 @@ public class VentanaLogin extends Application {
         if (resultado.esExitoso()) {
             mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", resultado.getMensaje());
 
-            // Pasar a la Selección de Equipo antes de la batalla
             VentanaSeleccionPokemon seleccion = new VentanaSeleccionPokemon(gestorUsuarios);
             seleccion.start(stage);
         } else {
