@@ -89,5 +89,5 @@ public class Entrenador {
     public String toString() {
         return nombre + " (" + equipo.contarDisponibles() + "/" + equipo.contar() + ")";
     }
->>>>>>> 2760e187b01d0bfd04e27dda183aa10dd0191e1c:src/pokemon_battle/Entrenador.java
+
 }
