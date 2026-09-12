@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.control.*;
 import pokemon_battle.usuarios.GestorUsuarios;
 import pokemon_battle.usuarios.ResultadoAcceso;
 import pokemon_battle.usuarios.Usuario;

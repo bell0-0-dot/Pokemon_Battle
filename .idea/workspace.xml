@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5f71a1af-6828-47bc-bbf5-ba3ea2daf2c5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaEquipo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaEquipo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/Pokemon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/Pokemon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Gui/VentanaEquipo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gui/VentanaEquipo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Gui/VentanaLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gui/VentanaLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pokemon_battle/Pokemon_Battle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pokemon_battle/Pokemon_Battle.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

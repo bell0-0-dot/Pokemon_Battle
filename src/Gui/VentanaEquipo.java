@@ -153,8 +153,7 @@ public class VentanaEquipo {
                 int ataque = Integer.parseInt(p[4].trim());
                 int defensa = Integer.parseInt(p[5].trim());
 
-                Pokemon nuevo = new Pokemon(nombre, nivel, tipo, hp, ataque, defensa);
-                if (entrenador.agregarPokemon(nuevo)) {
+                Pokemon nuevo = new Pokemon(ruta, nombre, nivel, tipo, hp, ataque, defensa);                if (entrenador.agregarPokemon(nuevo)) {
                     actualizarLista();
                 } else {
                     mostrarAlerta("Error", "El Pokémon ya existe o los datos son inválidos.");
