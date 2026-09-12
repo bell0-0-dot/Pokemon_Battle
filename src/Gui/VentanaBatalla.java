@@ -151,7 +151,7 @@ public class VentanaBatalla {
 
         txtHistorial = new TextArea();
         txtHistorial.setEditable(false);
-        txtHistorial.setPrefRowCount(5);
+        txtHistorial.setPrefRowCount(6);
         txtHistorial.setStyle("-fx-font-family: 'Courier New'; -fx-font-size: 12px; -fx-control-inner-background: rgba(255, 255, 255, 0.9);");
 
         panelHistorial.getChildren().addAll(lblHistorialHeader, txtHistorial);
@@ -300,7 +300,7 @@ public class VentanaBatalla {
             cargarImagenPokemon(imgRival, pRival);
         }
 
-        txtHistorial.setText(batalla.getHistorial().textoCompleto());
+        txtHistorial.setText(batalla.getHistorial().ultimasLineas(6));
         txtHistorial.positionCaret(txtHistorial.getLength());
         txtHistorial.setScrollTop(Double.MAX_VALUE);
     }
