@@ -8,6 +8,10 @@ package pokemon_battle;
  *
  * @author vasqu
  */
-public class Entrenador {
+public class Jugador {
+    private String nombre;
+    private String password;
+    
+    
     
 }

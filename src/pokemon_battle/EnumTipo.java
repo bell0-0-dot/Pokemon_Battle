@@ -8,6 +8,13 @@ package pokemon_battle;
  *
  * @author vasqu
  */
-public class EnumTipo {
-    
+public enum EnumTipo {
+    Agua,
+    Tierra,
+    Electrico,
+    Fuego,
+    Hielo,
+    Planta,
+    Acero, 
+    Dragon
 }
