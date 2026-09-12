@@ -8,15 +8,27 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import pokemon_battle.usuarios.GestorUsuarios;
+import pokemon_battle.usuarios.ResultadoAcceso;
+import pokemon_battle.usuarios.Usuario;
 
 public class VentanaLogin extends Application {
 
+    private GestorUsuarios gestorUsuarios;
     private TextField txtUsuario;
     private PasswordField txtPassword;
 
+    public VentanaLogin() {
+        this.gestorUsuarios = new GestorUsuarios();
+    }
+
+    public VentanaLogin(GestorUsuarios gestorUsuarios) {
+        this.gestorUsuarios = gestorUsuarios;
+    }
+
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Pokemon Battle - Inicio de Sesión");
+        primaryStage.setTitle("Pokémon Battle - Inicio de Sesión");
 
         StackPane root = new StackPane();
 
@@ -31,7 +43,7 @@ public class VentanaLogin extends Application {
             );
             root.setBackground(new Background(bgImage));
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error al cargar imagen: " + e.getMessage());
         }
 
         VBox tarjetaLogin = new VBox(15);
@@ -45,10 +57,10 @@ public class VentanaLogin extends Application {
                         "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 12, 0, 0, 4);"
         );
 
-        Label lblTitulo = new Label("POKEMON BATTLE");
+        Label lblTitulo = new Label("POKÉMON BATTLE");
         lblTitulo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2a75bb;");
 
-        Label lblSubtitulo = new Label("¡Ingresa tu usuario o crea uno para jugar!");
+        Label lblSubtitulo = new Label("Ingrese sus credenciales para continuar");
         lblSubtitulo.setStyle("-fx-font-size: 12px; -fx-text-fill: #555555;");
 
         GridPane gridForm = new GridPane();
@@ -85,12 +97,92 @@ public class VentanaLogin extends Application {
         tarjetaLogin.getChildren().addAll(lblTitulo, lblSubtitulo, gridForm, boxBotonesAccion);
         root.getChildren().add(tarjetaLogin);
 
+        // --- MANEJO DE EVENTOS ---
+
+        btnIniciar.setOnAction(e -> ejecutarInicioSesion(primaryStage));
+        btnRegistrar.setOnAction(e -> ejecutarRegistro());
+
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    private void ejecutarInicioSesion(Stage stage) {
+        String user = txtUsuario.getText();
+        String pass = txtPassword.getText();
+
+        ResultadoAcceso resultado = gestorUsuarios.iniciarSesion(user, pass);
+
+        if (resultado.esExitoso()) {
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", resultado.getMensaje());
+
+            // Obtener rival aleatorio generado por la clase de tu compañera
+            Usuario rivalUsuario = gestorUsuarios.obtenerRivalAleatorio();
+
+            // Abrir el Campo de Batalla pasando ambos entrenadores
+            VentanaBatalla batalla = new VentanaBatalla(gestorUsuarios.getEntrenadorActual(), rivalUsuario.getEntrenador());
+            batalla.start(stage);
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de Inicio de Sesión", resultado.getMensaje());
+        }
+    }
+
+    private void ejecutarRegistro() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Crear Nuevo Usuario");
+        dialog.setHeaderText("Ingrese los datos del nuevo entrenador:");
+
+        ButtonType btnCrear = new ButtonType("Registrar", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(btnCrear, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField nuevoUser = new TextField();
+        nuevoUser.setPromptText("Usuario");
+        PasswordField nuevaPass = new PasswordField();
+        PasswordField confirmPass = new PasswordField();
+
+        grid.add(new Label("Usuario:"), 0, 0);
+        grid.add(nuevoUser, 1, 0);
+        grid.add(new Label("Contraseña:"), 0, 1);
+        grid.add(nuevaPass, 1, 1);
+        grid.add(new Label("Confirmar:"), 0, 2);
+        grid.add(confirmPass, 1, 2);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.showAndWait().ifPresent(response -> {
+            if (response == btnCrear) {
+                ResultadoAcceso res = gestorUsuarios.registrar(
+                        nuevoUser.getText(),
+                        nuevaPass.getText(),
+                        confirmPass.getText()
+                );
+
+                if (res.esExitoso()) {
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Registro Éxitoso", res.getMensaje());
+                    txtUsuario.setText(nuevoUser.getText());
+                    txtPassword.setText("");
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error de Registro", res.getMensaje());
+                }
+            }
+        });
+    }
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
-
-
-
 
