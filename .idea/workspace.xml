@@ -4,24 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5f71a1af-6828-47bc-bbf5-ba3ea2daf2c5" name="Changes" comment="">
+    <list default="true" id="1ff51c3d-7283-45ca-a87b-81fa3872a34c" name="Changes" comment="Merge branch 'main' of https://github.com/bell0-0-dot/Pokemon_Battle&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;out/production/Pokemon_Battle/Gui/VentanaEquipo.class&#10;#&#9;out/production/Pokemon_Battle/Gui/VentanaLogin.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/Entrenador.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/EnumTipo.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/ListaEnlazada.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/NodoPokemon.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/Pokemon.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/Pokemon_Battle.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/GestorUsuarios.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/ListaUsuarios.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/NodoUsuario.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/ResultadoAcceso.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/Usuario.class&#10;#&#9;src/pokemon_battle/Pokemon_Battle.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaEquipo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaEquipo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/Pokemon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/Pokemon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Gui/VentanaEquipo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gui/VentanaEquipo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Gui/VentanaLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gui/VentanaLogin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pokemon_Battle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Pokemon_Battle.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaInventario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaSeleccionPokemon.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="14" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -29,19 +26,23 @@
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;rafacastillo2006&quot;
+    &quot;assignee&quot;: &quot;SrJooer&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/bell0-0-dot/Pokemon_Battle.git&quot;,
-    &quot;accountId&quot;: &quot;8fd8ce51-ac33-4a2c-82c3-d9a68d96475d&quot;
+    &quot;url&quot;: &quot;https://github.com/bell0-0-dot/Pokemon_Battle&quot;,
+    &quot;accountId&quot;: &quot;f13d3502-422a-4677-9f91-58f6bd3a947f&quot;
   }
 }</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 0
+  &quot;associatedIndex&quot;: 5
 }</component>
-  <component name="ProjectId" id="3JEWk9PSym86T7O8H8HF0Bm5w44" />
+  <component name="ProjectId" id="3JESLDAAGAmxpO8uERMx7tf0kvL" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -50,51 +51,47 @@
   &quot;keyToString&quot;: {
     &quot;Application.Pokemon_Battle.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/rafic/OneDrive/Desktop/Lab_Pokemon/Pokemon_Battle/src/RecursosGraficos&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/srjul/Desktop/Pokemon_Battle&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\rafic\OneDrive\Desktop\Lab_Pokemon\Pokemon_Battle\src\RecursosGraficos" />
-    </key>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.240" />
       </set>
     </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5f71a1af-6828-47bc-bbf5-ba3ea2daf2c5" name="Changes" comment="" />
-      <created>1789226849043</created>
+      <changelist id="1ff51c3d-7283-45ca-a87b-81fa3872a34c" name="Changes" comment="" />
+      <created>1789224677881</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1789226849043</updated>
-      <workItem from="1789226850678" duration="1239000" />
+      <updated>1789224677881</updated>
+      <workItem from="1789224679291" duration="4428000" />
     </task>
-    <task id="LOCAL-00001">
+    <task id="LOCAL-00001" summary="Merge branch 'main' of https://github.com/bell0-0-dot/Pokemon_Battle&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;out/production/Pokemon_Battle/Gui/VentanaEquipo.class&#10;#&#9;out/production/Pokemon_Battle/Gui/VentanaLogin.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/Entrenador.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/EnumTipo.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/ListaEnlazada.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/NodoPokemon.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/Pokemon.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/Pokemon_Battle.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/GestorUsuarios.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/ListaUsuarios.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/NodoUsuario.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/ResultadoAcceso.class&#10;#&#9;out/production/Pokemon_Battle/pokemon_battle/usuarios/Usuario.class&#10;#&#9;src/pokemon_battle/Pokemon_Battle.java">
       <option name="closed" value="true" />
-      <created>1789228986447</created>
+      <created>1789231615375</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1789228986447</updated>
+      <updated>1789231615375</updated>
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
