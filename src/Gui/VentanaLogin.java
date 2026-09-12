@@ -1,21 +1,15 @@
 package Gui;
 
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.scene.control.*;
 import pokemon_battle.usuarios.GestorUsuarios;
 import pokemon_battle.usuarios.ResultadoAcceso;
-import pokemon_battle.usuarios.Usuario;
 
 public class VentanaLogin extends Application {
 
@@ -25,10 +19,6 @@ public class VentanaLogin extends Application {
 
     public VentanaLogin() {
         this.gestorUsuarios = new GestorUsuarios();
-    }
-
-    public VentanaLogin(GestorUsuarios gestorUsuarios) {
-        this.gestorUsuarios = gestorUsuarios;
     }
 
     @Override
@@ -102,8 +92,6 @@ public class VentanaLogin extends Application {
         tarjetaLogin.getChildren().addAll(lblTitulo, lblSubtitulo, gridForm, boxBotonesAccion);
         root.getChildren().add(tarjetaLogin);
 
-        // --- MANEJO DE EVENTOS ---
-
         btnIniciar.setOnAction(e -> ejecutarInicioSesion(primaryStage));
         btnRegistrar.setOnAction(e -> ejecutarRegistro());
 
@@ -121,12 +109,9 @@ public class VentanaLogin extends Application {
         if (resultado.esExitoso()) {
             mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", resultado.getMensaje());
 
-            // Obtener rival aleatorio generado por la clase de tu compañera
-            Usuario rivalUsuario = gestorUsuarios.obtenerRivalAleatorio();
-
-            // Abrir el Campo de Batalla pasando ambos entrenadores
-            VentanaBatalla batalla = new VentanaBatalla(gestorUsuarios.getEntrenadorActual(), rivalUsuario.getEntrenador());
-            batalla.start(stage);
+            // Pasar a la Selección de Equipo antes de la batalla
+            VentanaSeleccionPokemon seleccion = new VentanaSeleccionPokemon(gestorUsuarios);
+            seleccion.start(stage);
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "Error de Inicio de Sesión", resultado.getMensaje());
         }
@@ -168,7 +153,7 @@ public class VentanaLogin extends Application {
                 );
 
                 if (res.esExitoso()) {
-                    mostrarAlerta(Alert.AlertType.INFORMATION, "Registro Éxitoso", res.getMensaje());
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Registro Exitoso", res.getMensaje());
                     txtUsuario.setText(nuevoUser.getText());
                     txtPassword.setText("");
                 } else {
@@ -185,9 +170,6 @@ public class VentanaLogin extends Application {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
+
 

@@ -9,10 +9,8 @@ public class Pokemon_Battle extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
-        VentanaLogin batalla = new VentanaLogin();
-        start(primaryStage);
+        VentanaLogin login = new VentanaLogin();
+        login.start(primaryStage);
     }
 
     public static void main(String[] args) {
