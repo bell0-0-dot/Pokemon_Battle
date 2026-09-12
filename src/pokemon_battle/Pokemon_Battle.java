@@ -1,19 +1,11 @@
-
 package pokemon_battle;
 
-import Gui.VentanaLogin;
 import javafx.application.Application;
-import javafx.stage.Stage;
+import pokemon_battle.vista.VentanaPrincipal;
 
-public class Pokemon_Battle extends Application {
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        VentanaLogin login = new VentanaLogin();
-        login.start(primaryStage);
-    }
+public class Pokemon_Battle {
 
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(VentanaPrincipal.class, args);
     }
 }

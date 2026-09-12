@@ -7,5 +7,17 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="javafx-21">
+        <CLASSES>
+        <root url="jar://$MODULE_DIR$/lib/javafx/javafx-base-21.0.12-win.jar!/" />
+        <root url="jar://$MODULE_DIR$/lib/javafx/javafx-graphics-21.0.12-win.jar!/" />
+        <root url="jar://$MODULE_DIR$/lib/javafx/javafx-controls-21.0.12-win.jar!/" />
+        <root url="jar://$MODULE_DIR$/lib/javafx/javafx-fxml-21.0.12-win.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
