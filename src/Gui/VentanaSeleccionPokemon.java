@@ -16,6 +16,8 @@ import pokemon_battle.usuarios.Usuario;
 
 public class VentanaSeleccionPokemon {
 
+    private static final int LIMITE_EQUIPO = 3;
+
     private GestorUsuarios gestorUsuarios;
     private Pokedex pokedex;
     private ListView<String> listPokedex;
@@ -59,7 +61,7 @@ public class VentanaSeleccionPokemon {
                         "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 12, 0, 0, 4);"
         );
 
-        Label lblTitulo = new Label("SELECCIONA TU EQUIPO PARA EL COMBATE");
+        Label lblTitulo = new Label("SELECCIONA TU EQUIPO (MÁXIMO 3 POKÉMON)");
         lblTitulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2a75bb;");
 
         HBox listasBox = new HBox(20);
@@ -77,8 +79,8 @@ public class VentanaSeleccionPokemon {
         boxDetalles.setPrefWidth(200);
 
         imgVistaPrevia = new ImageView();
-        imgVistaPrevia.setFitWidth(100);
-        imgVistaPrevia.setFitHeight(100);
+        imgVistaPrevia.setFitWidth(110);
+        imgVistaPrevia.setFitHeight(110);
         imgVistaPrevia.setPreserveRatio(true);
 
         lblDetalles = new Label("Selecciona un Pokémon");
@@ -104,23 +106,23 @@ public class VentanaSeleccionPokemon {
         contenedor.getChildren().addAll(lblTitulo, listasBox, btnIrABatalla);
         root.getChildren().add(contenedor);
 
-
         listPokedex.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && newVal.intValue() >= 0) {
                 Pokemon p = pokedex.verPlantilla(newVal.intValue());
                 if (p != null) {
                     lblDetalles.setText(p.getNombre() + "\nNvl: " + p.getNivel() + " | HP: " + p.getHp() +
                             "\nAtq: " + p.getAtaque() + " | Def: " + p.getDefensa());
-                    try {
-                        imgVistaPrevia.setImage(new Image(getClass().getResourceAsStream(p.getRutaImagen())));
-                    } catch (Exception ex) {
-                        imgVistaPrevia.setImage(null);
-                    }
+                    cargarImagenPokemon(imgVistaPrevia, p);
                 }
             }
         });
 
         btnAgregar.setOnAction(e -> {
+            if (jugador.totalPokemon() >= LIMITE_EQUIPO) {
+                mostrarAlerta("Límite Alcanzado", "Solo puedes llevar un máximo de 3 Pokémon a la batalla.");
+                return;
+            }
+
             int idx = listPokedex.getSelectionModel().getSelectedIndex();
             if (idx >= 0) {
                 Pokemon seleccionado = pokedex.crearPorIndice(idx);
@@ -134,12 +136,12 @@ public class VentanaSeleccionPokemon {
 
         btnIrABatalla.setOnAction(e -> {
             if (!jugador.tieneEquipo()) {
-                mostrarAlerta("Equipo Vacío", "Debes agregar al menos un Pokémon a tu equipo para empezar.");
+                mostrarAlerta("Equipo Vacío", "Debes agregar al menos 1 Pokémon a tu equipo para empezar.");
                 return;
             }
 
             Usuario rivalUsuario = gestorUsuarios.obtenerRivalAleatorio();
-            VentanaBatalla batalla = new VentanaBatalla(jugador, rivalUsuario.getEntrenador());
+            VentanaBatalla batalla = new VentanaBatalla(jugador, rivalUsuario.getEntrenador(), gestorUsuarios);
             batalla.start(stage);
         });
 
@@ -148,6 +150,7 @@ public class VentanaSeleccionPokemon {
 
         Scene scene = new Scene(root, 800, 600);
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 
@@ -167,9 +170,36 @@ public class VentanaSeleccionPokemon {
         for (int i = 0; i < jugador.totalPokemon(); i++) {
             Pokemon p = jugador.obtenerPorIndice(i);
             if (p != null) {
-                listMiEquipo.getItems().add(p.getNombre() + " - Nvl " + p.getNivel());
+                listMiEquipo.getItems().add((i + 1) + ". " + p.getNombre() + " - Nvl " + p.getNivel());
             }
         }
+    }
+
+    private void cargarImagenPokemon(ImageView view, Pokemon p) {
+        try {
+            if (p.getRutaImagen() != null && !p.getRutaImagen().isEmpty()) {
+                view.setImage(new Image(getClass().getResourceAsStream(p.getRutaImagen())));
+                if (view.getImage() != null) return;
+            }
+        } catch (Exception ignored) {}
+
+        String[] intentos = {
+                "/Imagenes/" + p.getNombre().toLowerCase() + ".png",
+                "/Imagenes/" + p.getNombre() + ".png",
+                "/RecursosGraficos/" + p.getNombre().toLowerCase() + ".png"
+        };
+
+        for (String ruta : intentos) {
+            try {
+                Image img = new Image(getClass().getResourceAsStream(ruta));
+                if (img.getWidth() > 0) {
+                    view.setImage(img);
+                    return;
+                }
+            } catch (Exception ignored) {}
+        }
+
+        view.setImage(null);
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

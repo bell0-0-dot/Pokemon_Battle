@@ -17,6 +17,7 @@ import pokemon_battle.Objeto;
 import pokemon_battle.Pokemon;
 import pokemon_battle.batalla.EstadisticasBatalla;
 import pokemon_battle.batalla.Historial;
+import pokemon_battle.usuarios.GestorUsuarios;
 
 public class VentanaBatalla {
 
@@ -24,6 +25,8 @@ public class VentanaBatalla {
     private Entrenador jugador;
     private Entrenador rival;
     private ListaObjetos inventarioJugador;
+    private GestorUsuarios gestorUsuarios;
+    private Stage stageActual;
 
     private Label lblNombreRival, lblHpRival, lblNivelRival, lblTipoRival;
     private ImageView imgRival;
@@ -34,9 +37,10 @@ public class VentanaBatalla {
     private TextArea txtHistorial;
     private Button btnAtacar, btnCambiar, btnObjetos;
 
-    public VentanaBatalla(Entrenador jugador, Entrenador rival) {
+    public VentanaBatalla(Entrenador jugador, Entrenador rival, GestorUsuarios gestorUsuarios) {
         this.jugador = jugador;
         this.rival = rival;
+        this.gestorUsuarios = gestorUsuarios;
 
         this.inventarioJugador = new ListaObjetos();
         this.inventarioJugador.insertar(new Objeto("Pocion", "Restaura 20 HP", 3, Objeto.TipoEfecto.CURAR, 20));
@@ -53,6 +57,7 @@ public class VentanaBatalla {
     }
 
     public void start(Stage stage) {
+        this.stageActual = stage;
         stage.setTitle("Pokémon Battle - Campo de Batalla");
 
         StackPane root = new StackPane();
@@ -216,6 +221,7 @@ public class VentanaBatalla {
 
         Scene scene = new Scene(root, 900, 650);
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 
@@ -308,6 +314,11 @@ public class VentanaBatalla {
             alert.setHeaderText("Resumen de Partida");
             alert.setContentText(logica.getEstadisticas().resumen());
             alert.showAndWait();
+
+            if (gestorUsuarios != null && stageActual != null) {
+                VentanaSeleccionPokemon seleccion = new VentanaSeleccionPokemon(gestorUsuarios);
+                seleccion.start(stageActual);
+            }
         }
     }
 
