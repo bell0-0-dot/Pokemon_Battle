@@ -1,1 +1,7 @@
 /build/
+/dist/
+/out/
+/dist/
+nbproject/private/
+.idea/workspace.xml
+.ai/
