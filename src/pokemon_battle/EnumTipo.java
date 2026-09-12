@@ -15,6 +15,16 @@ public enum EnumTipo {
     Fuego,
     Hielo,
     Planta,
-    Acero, 
-    Dragon
+    Acero,
+    Dragon,
+    Normal,
+    Lucha,
+    Volador,
+    Veneno,
+    Bicho,
+    Roca,
+    Fantasma,
+    Psiquico,
+    Siniestro,
+    Hada
 }

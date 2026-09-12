@@ -156,8 +156,11 @@ public class ListaEnlazada {
         if (nuevoTipo != null) {
             pokemon.setTipo(nuevoTipo);
         }
-        if (nuevoHp >= 0) {
-            pokemon.setHp(nuevoHp);
+        if (nuevoHp > 0) {
+            pokemon.setHpMaximo(nuevoHp);
+            if (pokemon.getHp() > nuevoHp) {
+                pokemon.setHp(nuevoHp);
+            }
         }
         if (nuevoAtaque > 0) {
             pokemon.setAtaque(nuevoAtaque);
@@ -189,6 +192,15 @@ public class ListaEnlazada {
         }
 
         return false;
+    }
+
+    public void restaurarEquipo() {
+        NodoPokemon actual = cabeza;
+        while (actual != null) {
+            actual.getPokemon().setHp(actual.getPokemon().getHpMaximo());
+            actual = actual.getSiguiente();
+        }
+        activo = cabeza;
     }
 
     public boolean estaVacia() {

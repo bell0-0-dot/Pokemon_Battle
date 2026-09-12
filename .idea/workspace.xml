@@ -6,15 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1ff51c3d-7283-45ca-a87b-81fa3872a34c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pokemon_Battle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Pokemon_Battle.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaEquipo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaInventario.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaLogin.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/Gui/VentanaSeleccionPokemon.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/Pokemon_Battle.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pokemon_battle/Jugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pokemon_battle/Entrenador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pokemon_battle/Pokemon_Battle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pokemon_battle/Pokemon_Battle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/Pokemon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/Pokemon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/usuarios/CargadorRivales.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Pokemon_Battle/pokemon_battle/usuarios/CargadorRivales.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +81,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1789224677881</updated>
-      <workItem from="1789224679291" duration="4428000" />
+      <workItem from="1789224679291" duration="6237000" />
     </task>
     <servers />
   </component>

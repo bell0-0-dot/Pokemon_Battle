@@ -1,20 +1,17 @@
 package pokemon_battle;
 
-
-/**
- *
- * @author vasqu
- */
-
+import pokemon_battle.datos.CargadorInventario;
 
 public class Entrenador {
 
     private String nombre;
     private ListaEnlazada equipo;
+    private ListaObjetos inventario;
 
     public Entrenador(String nombre) {
         this.nombre = nombre;
         this.equipo = new ListaEnlazada();
+        this.inventario = CargadorInventario.crear();
     }
 
     public String getNombre() {
@@ -85,9 +82,31 @@ public class Entrenador {
         return equipo.recorrer();
     }
 
+    public ListaObjetos getInventario() {
+        return inventario;
+    }
+
+    public boolean usarObjeto(String nombreObjeto, Pokemon objetivo) {
+        if (objetivo == null) {
+            return false;
+        }
+        return inventario.usarObjeto(nombreObjeto, objetivo);
+    }
+
+    public int totalObjetos() {
+        return inventario.contar();
+    }
+
+    public void reiniciarEquipo() {
+        equipo.restaurarEquipo();
+    }
+
+    public void reiniciarInventario() {
+        inventario = CargadorInventario.crear();
+    }
+
     @Override
     public String toString() {
         return nombre + " (" + equipo.contarDisponibles() + "/" + equipo.contar() + ")";
     }
-
 }

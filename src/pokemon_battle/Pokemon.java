@@ -21,6 +21,7 @@ public class Pokemon {
         this.nivel = nivel;
         this.tipo = tipo;
         this.hp = hp;
+        this.HpMaximo = hp;
         this.ataque = ataque;
         this.defensa = defensa;
     }

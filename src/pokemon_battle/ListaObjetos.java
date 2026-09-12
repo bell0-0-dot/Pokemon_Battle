@@ -56,6 +56,17 @@ public class ListaObjetos {
         return size;
     }
       
+      public Objeto obtenerPorIndice(int indice) {
+        if (indice < 0 || indice >= size) {
+            return null;
+        }
+        NodoObjeto actual = cabeza;
+        for (int i = 0; i < indice; i++) {
+            actual = actual.getSiguiente();
+        }
+        return actual.getObjeto();
+    }
+      
       public boolean usarObjeto(String nombreObjeto, Pokemon objetivo) {
         Objeto objeto = buscar(nombreObjeto);
         if (objeto == null || !objeto.hayDisponible()) {
